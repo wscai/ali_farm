@@ -6,7 +6,11 @@ pygame.init()
 infoObject = pygame.display.Info()
 font = pygame.font.Font('asset/font/general.ttf', 20)
 a_name = 'sheep_grey'
-
+emo_list = ['cat']
+emo = {
+    i:pygame.transform.scale(pygame.image.load(f'asset/image/{i}.jpg'),(40,40)) for i in emo_list
+}
+emotion_scale = [35,35]
 
 class player(pygame.sprite.Sprite):
     # 定义构造函数
@@ -14,7 +18,7 @@ class player(pygame.sprite.Sprite):
     # move_range = [left,right,top,down]
     def __init__(self, name, scale=(40, 40), move_range=(0, infoObject.current_w, 300, infoObject.current_h),
                  frequency: float = 1, face_right: bool = False, factor: float = 1.1,
-                 screen_height: int = 1080, speaking_time: int = 100, eat_face_right: bool = False):
+                 screen_height: int = 1080, speaking_time: int = 100, eat_face_right: bool = False, emo_time:int= 100):
         # 调父类来初始化子类
         pygame.sprite.Sprite.__init__(self)
         # 加载图片
@@ -29,6 +33,12 @@ class player(pygame.sprite.Sprite):
         self.words_rect = None
         self.speaking_time = speaking_time
         self.speaking_remain = speaking_time
+
+        self.is_emo = False
+        self.emo_remain = emo_time
+        self.emo_time = emo_time
+        self.emo_key = None
+
         # self.image = pygame.transform.scale(pygame.image.load(filename),(40,40))
         self.move_range = move_range
         # 获取图片rect区域
@@ -53,6 +63,12 @@ class player(pygame.sprite.Sprite):
 
     def eat(self):
         self.animation.eat()
+
+    # 做表情
+    def emo(self,key):
+        self.is_emo = True
+        self.emo_key=key
+
 
     # 每帧更新
     def update(self, screen):
@@ -99,7 +115,13 @@ class player(pygame.sprite.Sprite):
             if self.words is not None:
                 self.words_rect = self.words.get_rect()
                 self.words_rect.midbottom = (self.rect.centerx, self.id_rect.midtop[1])
-
+        if self.is_emo:
+            self.emo_remain-=1
+            screen.blit(pygame.transform.scale(emo[self.emo_key],
+                                               (int(emotion_scale[0] * scale_factor), int(emotion_scale[1] * scale_factor))),self.rect)
+            if self.emo_remain<=0:
+                self.emo_remain = self.emo_time
+                self.is_emo = False
         # Update文字ID的位置
         screen.blit(self.name, self.id_rect)
         if self.is_speaking:

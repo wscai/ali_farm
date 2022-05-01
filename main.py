@@ -2,12 +2,13 @@ import sys
 import pygame
 import time
 from user_management import usr_management, parsing
-from player import player
+from player import player,emo
 
 pygame.init()
 sleep_time = 0.05
-url = 'https://live.bilibili.com/451?hotRank=0&session_id=2990e7d1587c6892c5781cdd9c15e5fa_6032ECCC-4B30-40C3-BEF6-7935C0BCE57F&visit_id=43526qphei80'
+url = 'https://live.bilibili.com/8308544?hotRank=0&session_id=11f56503093dfb9366d9771a730ae7f6_22D97473-63A1-4D89-9F8A-9E8224795A9E&visit_id=aoxj10z4m040'
 background_dir = 'asset/image/bg.jpeg'
+mysterious_word = '1'
 
 
 def update(self, screen, bg):
@@ -37,8 +38,10 @@ def update(self, screen, bg):
             self.users[i.user_id] = [player(i.user_name,frequency=0.5,scale=(80,60)), i]
             speak_list.add(i.user_id)
     for i in list(speak_list):
-        if '的' in self.users[i][1].content:
+        if mysterious_word in self.users[i][1].content:
             self.users[i][0].eat()
+        if '你好' in self.users[i][1].content:
+            self.users[i][0].emo('cat')
         self.users[i][0].speak(self.users[i][1].content)
     blit()
 

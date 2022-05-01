@@ -20,7 +20,7 @@ class user:
 
 class usr_management:
     def __init__(self, link):
-        self.browser = webdriver.Safari()
+        self.browser = webdriver.Chrome()
         self.browser.get(link)
         self.browser.implicitly_wait(10)
         self.link = link
