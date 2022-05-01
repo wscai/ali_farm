@@ -6,19 +6,22 @@ pygame.init()
 infoObject = pygame.display.Info()
 font = pygame.font.Font('asset/font/general.ttf', 20)
 a_name = 'sheep_grey'
-emo_list = ['cat']
+emo_list = ['cat', 'sweat', 'doge', 'cheems']
 emo = {
-    i:pygame.transform.scale(pygame.image.load(f'asset/image/{i}.jpg'),(40,40)) for i in emo_list
+    i: pygame.transform.scale(pygame.image.load(f'asset/image/{i}.jpg'), (40, 40)) for i in emo_list
 }
-emotion_scale = [35,35]
+emotion_scale = [35, 35]
+
 
 class player(pygame.sprite.Sprite):
     # 定义构造函数
     # name是asset/image中的无后缀文件名，move_range是可运动的一个方块，font是导入字体，scale是初始大小，frequency是动画快慢，factor是近大远小乘数，screen_height是屏幕高度
     # move_range = [left,right,top,down]
-    def __init__(self, name, scale=(40, 40), move_range=(0, infoObject.current_w, 300, infoObject.current_h),
-                 frequency: float = 1, face_right: bool = False, factor: float = 1.1,
-                 screen_height: int = 1080, speaking_time: int = 100, eat_face_right: bool = False, emo_time:int= 100):
+    def __init__(self, name, scale=(40, 40),
+                 move_range=(0, infoObject.current_w, infoObject.current_h // 2, infoObject.current_h - 80),
+                 frequency: float = 1, face_right: bool = False, factor: float = 1.5,
+                 screen_height: int = 1080, speaking_time: int = 100, eat_face_right: bool = False,
+                 emo_time: int = 100):
         # 调父类来初始化子类
         pygame.sprite.Sprite.__init__(self)
         # 加载图片
@@ -65,10 +68,9 @@ class player(pygame.sprite.Sprite):
         self.animation.eat()
 
     # 做表情
-    def emo(self,key):
+    def emo(self, key):
         self.is_emo = True
-        self.emo_key=key
-
+        self.emo_key = key
 
     # 每帧更新
     def update(self, screen):
@@ -108,7 +110,7 @@ class player(pygame.sprite.Sprite):
                                                (int(self.scale[0] * scale_factor), int(self.scale[1] * scale_factor))),
                         self.rect)
         # 决定ID位置
-        self.id_rect.midbottom = (self.rect.centerx, self.rect.midtop[1])
+        self.id_rect.midbottom = (self.rect.centerx, self.rect.midtop[1] - 5)
         # 说话
         if self.is_speaking:
             self.speaking_remain -= 1
@@ -116,10 +118,19 @@ class player(pygame.sprite.Sprite):
                 self.words_rect = self.words.get_rect()
                 self.words_rect.midbottom = (self.rect.centerx, self.id_rect.midtop[1])
         if self.is_emo:
-            self.emo_remain-=1
-            screen.blit(pygame.transform.scale(emo[self.emo_key],
-                                               (int(emotion_scale[0] * scale_factor), int(emotion_scale[1] * scale_factor))),self.rect)
-            if self.emo_remain<=0:
+            self.emo_remain -= 1
+            emo_rect = emo[self.emo_key].get_rect()
+            if self.animation.face_right:
+                emo_rect.topright = self.rect.topright
+                screen.blit(pygame.transform.scale(emo[self.emo_key],
+                                                   (int(emotion_scale[0] * scale_factor),
+                                                    int(emotion_scale[1] * scale_factor))), emo_rect)
+            else:
+                emo_rect.topleft = self.rect.topleft
+                screen.blit(pygame.transform.scale(emo[self.emo_key],
+                                                   (int(emotion_scale[0] * scale_factor),
+                                                    int(emotion_scale[1] * scale_factor))), emo_rect)
+            if self.emo_remain <= 0:
                 self.emo_remain = self.emo_time
                 self.is_emo = False
         # Update文字ID的位置

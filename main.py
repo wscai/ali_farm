@@ -2,14 +2,23 @@ import sys
 import pygame
 import time
 from user_management import usr_management, parsing
-from player import player,emo
+from player import player, emo
+from clock import clock
+
 
 pygame.init()
+pygame.mixer.init()
 sleep_time = 0.05
-url = 'https://live.bilibili.com/8308544?hotRank=0&session_id=11f56503093dfb9366d9771a730ae7f6_22D97473-63A1-4D89-9F8A-9E8224795A9E&visit_id=aoxj10z4m040'
+url = 'https://live.bilibili.com/24565591?spm_id_from=444.41.list.card_live.click'
 background_dir = 'asset/image/bg.jpeg'
 mysterious_word = '1'
-
+clock_voice = pygame.mixer.Sound('asset/audio/laugh.mp3')
+emo_dict = {
+    '流泪':'cat',
+    'doge':'doge',
+    '流汗':'sweat',
+    'cheems':'cheems'
+}
 
 def update(self, screen, bg):
     def blit(s=True):
@@ -17,9 +26,16 @@ def update(self, screen, bg):
         id_list = list(sorted([(self.users[i][0].rect.centery, i) for i in self.users.keys()]))
         for i in id_list:
             self.users[i[1]][0].update(screen)
+        t,play = time_clock.update()
+        if play:
+            clock_voice.play()
+        t_rect = t.get_rect()
+        t_rect.bottomright = (infoObject.current_w, infoObject.current_h)
+        screen.blit(t, t_rect)
         pygame.display.flip()
         if s:
             time.sleep(sleep_time)
+
     th = parsing(self.browser.page_source)
     blit(False)
     th.start()
@@ -35,13 +51,14 @@ def update(self, screen, bg):
                 self.users[i.user_id][1] = i
                 speak_list.add(i.user_id)
         else:
-            self.users[i.user_id] = [player(i.user_name,frequency=0.5,scale=(80,60)), i]
+            self.users[i.user_id] = [player(i.user_name, frequency=0.5, scale=(80, 60)), i]
             speak_list.add(i.user_id)
     for i in list(speak_list):
         if mysterious_word in self.users[i][1].content:
             self.users[i][0].eat()
-        if '你好' in self.users[i][1].content:
-            self.users[i][0].emo('cat')
+        for j in emo_dict.keys():
+            if j in self.users[i][1].content:
+                self.users[i][0].emo(emo_dict[j])
         self.users[i][0].speak(self.users[i][1].content)
     blit()
 
@@ -52,12 +69,10 @@ infoObject = pygame.display.Info()
 screen = pygame.display.set_mode((infoObject.current_w, infoObject.current_h), pygame.RESIZABLE)
 pygame.display.set_caption('直播')
 bg = pygame.transform.scale(pygame.image.load(background_dir), (infoObject.current_w, infoObject.current_h))
-
+time_clock = clock([(25,(0,0,0)),(5,(255,255,255))])
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-    update(users,screen,bg)
-
-
+    update(users, screen, bg)

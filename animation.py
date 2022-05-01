@@ -45,7 +45,7 @@ def reader(name, face_right):
 # 人物的动画
 class animation:
     # name是asset名，frequency是动画快慢，face_right标明动画人物左右朝向
-    def __init__(self, name: str, frequency: float = 1, face_right: bool = True, eat: str = 'img',
+    def __init__(self, name: str, frequency: float = 1, face_right: bool = True, eat: str = 'doge',
                  eat_face_right: bool = False):
         self.face_right = face_right
         self.eat_face_right = eat_face_right
