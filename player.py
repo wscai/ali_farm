@@ -8,7 +8,7 @@ font = pygame.font.Font('asset/font/general.ttf', 20)
 a_name = 'sheep_grey'
 emo_list = ['cat', 'sweat', 'doge', 'cheems']
 emo = {
-    i: pygame.transform.scale(pygame.image.load(f'asset/image/{i}.jpg'), (40, 40)) for i in emo_list
+    i: pygame.transform.scale(pygame.image.load(f'asset/image/{i}.png'), (40, 40)) for i in emo_list
 }
 emotion_scale = [35, 35]
 
