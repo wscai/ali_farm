@@ -9,7 +9,7 @@ from clock import clock
 pygame.init()
 pygame.mixer.init()
 sleep_time = 0.05
-url = 'https://live.bilibili.com/22284670?hotRank=0&session_id=1b2c9da43b4ea98c467b79d5959ff933_E4606FE4-3A6F-4B12-B509-FC5A33F1E417&visit_id=496qrxj7seww'
+url = 'https://live.bilibili.com/292891?hotRank=0&session_id=0c28084f2e4b8b05ee833fb75ea6dc27_8D5A5EC9-B88D-40EA-935E-899C97178C77&visit_id=bvsik0r3fwg0'
 background_dir = 'asset/image/bg.jpeg'
 mysterious_word = '1'
 clock_voice = pygame.mixer.Sound('asset/audio/laugh.mp3')
@@ -26,11 +26,15 @@ def update(self, screen, bg):
         id_list = list(sorted([(self.users[i][0].rect.centery, i) for i in self.users.keys()]))
         for i in id_list:
             self.users[i[1]][0].update(screen)
-        t,play = time_clock.update()
+        t,play, left = time_clock.update()
         if play:
             clock_voice.play()
+
         t_rect = t.get_rect()
         t_rect.bottomright = (infoObject.current_w, infoObject.current_h)
+        l_rect = left.get_rect()
+        l_rect.bottomright = t_rect.topright
+        screen.blit(left, l_rect)
         screen.blit(t, t_rect)
         pygame.display.flip()
         if s:

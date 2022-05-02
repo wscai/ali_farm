@@ -9,6 +9,7 @@ class clock:
         self.cycle = build_loop(clock_cycle)
         self.last_cycle_time = datetime.datetime.now()
         self.font = pygame.font.Font('asset/font/general.ttf', 200)
+        self.left_font = pygame.font.Font('asset/font/general.ttf', 100)
 
     def update(self):
         msg = False
@@ -16,8 +17,10 @@ class clock:
             datetime.datetime.now().minute)
         hour = '0' + str(datetime.datetime.now().hour) if datetime.datetime.now().hour < 10 else str(
             datetime.datetime.now().hour)
-        if (datetime.datetime.now() - self.last_cycle_time).seconds//60 >= self.cycle.value[0]:
+        dif = (datetime.datetime.now() - self.last_cycle_time).seconds//60
+        if dif >= self.cycle.value[0]:
+
             self.cycle = self.cycle.next
             self.last_cycle_time = datetime.datetime.now()
             msg = True
-        return self.font.render(hour + ':' + minute, True, self.cycle.value[1]), msg
+        return self.font.render(hour + ':' + minute, True, self.cycle.value[1]), msg, self.left_font.render(str(self.cycle.value[0]-dif)+' mins left', True, self.cycle.value[1])

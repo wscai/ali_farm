@@ -8,7 +8,7 @@ font = pygame.font.Font('asset/font/general.ttf', 20)
 a_name = 'sheep_grey'
 emo_list = ['cat', 'sweat', 'doge', 'cheems']
 emo = {
-    i: pygame.transform.scale(pygame.image.load(f'asset/image/{i}.png'), (40, 40)) for i in emo_list
+    i: pygame.transform.scale(pygame.image.load(f'asset/image/{i}.png'), (45, 45)) for i in emo_list
 }
 emotion_scale = [35, 35]
 
@@ -122,7 +122,7 @@ class player(pygame.sprite.Sprite):
             emo_rect = emo[self.emo_key].get_rect()
             if self.animation.face_right:
                 emo_rect.topright = self.rect.topright
-                screen.blit(pygame.transform.scale(emo[self.emo_key],
+                screen.blit(pygame.transform.scale(pygame.transform.flip(emo[self.emo_key],True,False),
                                                    (int(emotion_scale[0] * scale_factor),
                                                     int(emotion_scale[1] * scale_factor))), emo_rect)
             else:
