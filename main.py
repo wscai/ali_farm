@@ -9,7 +9,7 @@ from clock import clock
 pygame.init()
 pygame.mixer.init()
 sleep_time = 0.05
-url = 'https://live.bilibili.com/24565591?spm_id_from=444.41.list.card_live.click'
+url = 'https://live.bilibili.com/22284670?hotRank=0&session_id=1b2c9da43b4ea98c467b79d5959ff933_E4606FE4-3A6F-4B12-B509-FC5A33F1E417&visit_id=496qrxj7seww'
 background_dir = 'asset/image/bg.jpeg'
 mysterious_word = '1'
 clock_voice = pygame.mixer.Sound('asset/audio/laugh.mp3')
