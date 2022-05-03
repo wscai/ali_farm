@@ -1,11 +1,9 @@
 import time
 import threading
-from selenium import webdriver
 import re
 from danmaku import danmaku
-from player import player
+from settings import browser_driver
 
-# chr = webdriver.Chrome(r'/Usr/local/ChromeDriver')
 pattern_danmus = re.compile('<div class="chat-item danmaku-item .*?"(.*?)>')
 
 
@@ -20,8 +18,7 @@ class user:
 
 class usr_management:
     def __init__(self, link):
-        # self.browser = webdriver.Chrome()
-        self.browser = webdriver.Safari()
+        self.browser = browser_driver
         self.browser.get(link)
         self.browser.implicitly_wait(10)
         self.link = link

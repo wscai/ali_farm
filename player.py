@@ -1,15 +1,11 @@
 import pygame
 import random
 from animation import animation
-
+from settings import id_font, emo
 pygame.init()
 infoObject = pygame.display.Info()
-font = pygame.font.Font('asset/font/general.ttf', 20)
+
 a_name = 'sheep_grey'
-emo_list = ['cat', 'sweat', 'doge', 'cheems']
-emo = {
-    i: pygame.transform.scale(pygame.image.load(f'asset/image/{i}.png'), (45, 45)) for i in emo_list
-}
 emotion_scale = [35, 35]
 
 
@@ -19,15 +15,15 @@ class player(pygame.sprite.Sprite):
     # move_range = [left,right,top,down]
     def __init__(self, name, scale=(40, 40),
                  move_range=(0, infoObject.current_w, infoObject.current_h // 2, infoObject.current_h - 80),
-                 frequency: float = 1, face_right: bool = False, factor: float = 1.5,
-                 screen_height: int = 1080, speaking_time: int = 100, eat_face_right: bool = False,
+                 frequency: float = 1, factor: float = 1.5,
+                 screen_height: int = 1080, speaking_time: int = 100,
                  emo_time: int = 100):
         # 调父类来初始化子类
         pygame.sprite.Sprite.__init__(self)
         # 加载图片
-        self.name = font.render(name, True, (0, 0, 0))
+        self.name = id_font.render(name, True, (0, 0, 0))
         self.id_rect = self.name.get_rect()
-        self.animation = animation(a_name, frequency, face_right, eat_face_right=eat_face_right)
+        self.animation = animation(frequency=frequency)
         self.scale = scale
         self.factor = factor
         self.screen_height = screen_height
@@ -61,7 +57,7 @@ class player(pygame.sprite.Sprite):
 
     # 说话
     def speak(self, text: str):
-        self.words = font.render(str(text), True, (0, 0, 0), (255, 255, 255))
+        self.words = id_font.render(str(text), True, (0, 0, 0), (255, 255, 255))
         self.is_speaking = True
 
     def eat(self):
