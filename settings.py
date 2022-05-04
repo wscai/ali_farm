@@ -29,8 +29,8 @@ clock_voice = pygame.mixer.Sound('asset/audio/laugh.mp3')
 
 # 字体
 id_font = pygame.font.Font('asset/font/general.ttf', 20)
-clock_font = pygame.font.Font('asset/font/general.ttf', 200)
-clock_remain_font = pygame.font.Font('asset/font/general.ttf', 100)
+clock_font = pygame.font.Font('asset/font/general.ttf', int(screen_size[1]*0.1))
+clock_remain_font = pygame.font.Font('asset/font/general.ttf', int(screen_size[1]*0.05))
 
 # 时钟
 clock_cycle = [(25, (0, 0, 0)), (5, (255, 255, 255))] # [(minutes, (color RGB)), ...]
