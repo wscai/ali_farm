@@ -1,6 +1,7 @@
 from settings import character, character_is_animation, character_eating, character_eating_is_animation
 
 
+
 # 人物的动画
 class animation:
     # name是asset名，frequency是动画快慢，face_right标明动画人物左右朝向

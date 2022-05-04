@@ -2,7 +2,7 @@ import time
 import threading
 import re
 from danmaku import danmaku
-from settings import browser_driver
+from settings import browser_driver,max_character
 
 pattern_danmus = re.compile('<div class="chat-item danmaku-item .*?"(.*?)>')
 
@@ -26,7 +26,7 @@ class usr_management:
         self.html = ''
         self.update_frequency = 10
         self.now = 1
-
+        self.time_list = []
     def sorted_place(self):
         return sorted([(self.users[i][0].rect.centery, i) for i in self.users.keys()])
 
@@ -38,6 +38,8 @@ class usr_management:
             return self.users[index]
         else:
             return None
+    def delete_character(self):
+        pass
 
 
 class parsing(threading.Thread):

@@ -68,11 +68,15 @@ class player(pygame.sprite.Sprite):
     # 每帧更新
     def update(self, screen):
         # Update图片的位置
+        # 近大远小，决定人物大小
+        scale_factor = self.rect.midtop[1] * self.factor / self.screen_height + 1
+        self.rect.height = int(self.scale[1] * scale_factor)
+        self.rect.width = int(self.scale[0] * scale_factor)
         # 到达位置自动随机新位置，并自动转向
         if self.animation.is_eating:
             scale_factor = self.rect.midtop[1] * self.factor / self.screen_height + 1
             screen.blit(pygame.transform.scale(self.animation.image_update(),
-                                               (int(self.scale[0] * scale_factor), int(self.scale[1] * scale_factor))),
+                                               self.rect.size),
                         self.rect)
         else:
             if self.rect.midtop[0] == self.to_location[0] and self.rect.midtop[1] == self.to_location[1]:
@@ -93,14 +97,12 @@ class player(pygame.sprite.Sprite):
             elif self.rect.midtop[1] < self.to_location[1]:
                 self.rect.midtop = (self.rect.midtop[0], self.rect.midtop[1] + 1)
 
-            # 近大远小，决定人物大小
-            scale_factor = self.rect.midtop[1] * self.factor / self.screen_height + 1
-            self.rect.height = int(self.scale[1] * scale_factor)
-            self.rect.width = int(self.scale[0] * scale_factor)
+
+
 
             # update动画图片
             screen.blit(pygame.transform.scale(self.animation.image_update(),
-                                               (int(self.scale[0] * scale_factor), int(self.scale[1] * scale_factor))),
+                                               self.rect.size),
                         self.rect)
         # 决定ID位置
         self.id_rect.midbottom = (self.rect.centerx, self.rect.midtop[1] - 5)
@@ -113,11 +115,12 @@ class player(pygame.sprite.Sprite):
         if self.is_emo:
             self.emo_remain -= 1
             emo_rect = emo[self.emo_key].get_rect()
+            emo_rect.width = int(emotion_scale[0] * scale_factor)
+            emo_rect.height = int(emotion_scale[1] * scale_factor)
             if self.animation.face_right:
                 emo_rect.topright = self.rect.topright
                 screen.blit(pygame.transform.scale(pygame.transform.flip(emo[self.emo_key], True, False),
-                                                   (int(emotion_scale[0] * scale_factor),
-                                                    int(emotion_scale[1] * scale_factor))), emo_rect)
+                                                   emo_rect.size), emo_rect)
             else:
                 emo_rect.topleft = self.rect.topleft
                 screen.blit(pygame.transform.scale(emo[self.emo_key],

@@ -10,7 +10,7 @@ class Node:
 
 
 # 创建looped linked list 以播放动画
-def build_loop(img_list):
+def build_loop(img_list) -> Node:
     head = Node(img_list[0])
     cur = head
     for i in img_list[1:]:

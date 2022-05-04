@@ -6,12 +6,13 @@ pygame.init()
 # 基本信息
 caption_name = '直播'
 between_frame_sleep_time = 0.05
-url = 'https://live.bilibili.com/726104?broadcast_type=0&is_room_feed=1&spm_id_from=333.999.0.0'
+url = 'https://live.bilibili.com/22471888?hotRank=0&session_id=a4521cdf4635faf8160e1a294cd63213_9936858E-DA9F-4E65-ADAE-993F0299BD5C&visit_id=99dh06lbve80'
 mysterious_word = '1'
 # browser_driver = webdriver.Safari()
 browser_driver = webdriver.Chrome()
 screen_size = (pygame.display.Info().current_w,pygame.display.Info().current_h)
 screen = pygame.display.set_mode(screen_size, pygame.RESIZABLE)
+max_character = 300
 
 # 图片
 background_dir = 'asset/image/bg.jpeg'
@@ -22,7 +23,8 @@ emo = {
 emo_size = [35, 35]
 character, character_is_animation = reader(name='sheep_grey', face_right=False)
 character_eating, character_eating_is_animation = reader(name='王境泽', face_right=False)
-
+# weather_effect, _ = reader(name='rain',face_right=False)
+weather_effect = None
 
 # 音频
 clock_voice = pygame.mixer.Sound('asset/audio/打卡.mp3')
