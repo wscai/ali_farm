@@ -20,4 +20,4 @@ class clock:
             self.last_cycle_time = datetime.datetime.now()
             msg = True
         return clock_font.render(hour + ':' + minute, True, self.cycle.value[1]), msg, clock_remain_font.render(
-            str(self.cycle.value[0] - dif) + ' mins left', True, self.cycle.value[1])
+            str(self.cycle.value[0] - dif) + '分钟剩余', True, self.cycle.value[1])
