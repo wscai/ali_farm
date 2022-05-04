@@ -4,7 +4,6 @@ from settings import clock_font, clock_remain_font
 
 
 class clock:
-    # cycle: [(length of cycle time in minutes, color (r,g,b))]
     def __init__(self, clock_cycle: list):
         self.cycle = build_loop(clock_cycle)
         self.last_cycle_time = datetime.datetime.now()

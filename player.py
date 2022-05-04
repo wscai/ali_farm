@@ -1,12 +1,9 @@
 import pygame
 import random
 from animation import animation
-from settings import id_font, emo
-pygame.init()
-infoObject = pygame.display.Info()
+from settings import id_font, emo, emo_size, screen_size
 
-a_name = 'sheep_grey'
-emotion_scale = [35, 35]
+emotion_scale = emo_size
 
 
 class player(pygame.sprite.Sprite):
@@ -14,7 +11,7 @@ class player(pygame.sprite.Sprite):
     # name是asset/image中的无后缀文件名，move_range是可运动的一个方块，font是导入字体，scale是初始大小，frequency是动画快慢，factor是近大远小乘数，screen_height是屏幕高度
     # move_range = [left,right,top,down]
     def __init__(self, name, scale=(40, 40),
-                 move_range=(0, infoObject.current_w, infoObject.current_h // 2, infoObject.current_h - 80),
+                 move_range=(0, screen_size[0], screen_size[1] // 2, screen_size[1] - 80),
                  frequency: float = 1, factor: float = 1.5,
                  screen_height: int = 1080, speaking_time: int = 100,
                  emo_time: int = 100):
@@ -118,7 +115,7 @@ class player(pygame.sprite.Sprite):
             emo_rect = emo[self.emo_key].get_rect()
             if self.animation.face_right:
                 emo_rect.topright = self.rect.topright
-                screen.blit(pygame.transform.scale(pygame.transform.flip(emo[self.emo_key],True,False),
+                screen.blit(pygame.transform.scale(pygame.transform.flip(emo[self.emo_key], True, False),
                                                    (int(emotion_scale[0] * scale_factor),
                                                     int(emotion_scale[1] * scale_factor))), emo_rect)
             else:

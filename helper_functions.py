@@ -1,5 +1,7 @@
 import os
 import pygame
+
+
 # Linked list
 class Node:
     def __init__(self, val):

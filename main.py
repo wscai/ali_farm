@@ -1,30 +1,34 @@
 import sys
-import pygame
 import time
-from user_management import usr_management, parsing
-from player import player
+
+import pygame
+
 from clock import clock
-from settings import url, background_dir, mysterious_word, clock_voice, between_frame_sleep_time, caption_name, emo
+from player import player
+from settings import url, background_dir, clock_voice, between_frame_sleep_time, caption_name, emo, \
+    clock_cycle, screen_size, screen
+from user_management import usr_management, parsing
 
 pygame.init()
 sleep_time = between_frame_sleep_time
 
-def update(self, screen, bg):
+
+def update(self, Screen, bg):
     def blit(s=True):
-        screen.blit(bg, (0, 0))
-        id_list = list(sorted([(self.users[i][0].rect.centery, i) for i in self.users.keys()]))
-        for i in id_list:
-            self.users[i[1]][0].update(screen)
+        Screen.blit(bg, (0, 0))
+        id_list = list(sorted([(self.users[k][0].rect.centery, k) for k in self.users.keys()]))
+        for k in id_list:
+            self.users[k[1]][0].update(Screen)
         t, play, left = time_clock.update()
         if play:
             clock_voice.play()
 
         t_rect = t.get_rect()
-        t_rect.bottomright = (infoObject.current_w, infoObject.current_h)
+        t_rect.bottomright = screen_size
         l_rect = left.get_rect()
         l_rect.bottomright = t_rect.topright
-        screen.blit(left, l_rect)
-        screen.blit(t, t_rect)
+        Screen.blit(left, l_rect)
+        Screen.blit(t, t_rect)
         pygame.display.flip()
         if s:
             time.sleep(sleep_time)
@@ -58,14 +62,13 @@ def update(self, screen, bg):
 
 users = usr_management(url)
 time.sleep(5)
-infoObject = pygame.display.Info()
-screen = pygame.display.set_mode((infoObject.current_w, infoObject.current_h), pygame.RESIZABLE)
+infoObject = (pygame.display.Info().current_w, pygame.display.Info().current_h)
 pygame.display.set_caption(caption_name)
-bg = pygame.transform.scale(pygame.image.load(background_dir), (infoObject.current_w, infoObject.current_h))
-time_clock = clock([(25, (0, 0, 0)), (5, (255, 255, 255))])
+background = pygame.transform.scale(pygame.image.load(background_dir), screen_size)
+time_clock = clock(clock_cycle)
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-    update(users, screen, bg)
+    update(users, screen, background)
