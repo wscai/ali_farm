@@ -13,6 +13,9 @@ browser_driver = webdriver.Chrome()
 screen_size = (pygame.display.Info().current_w,pygame.display.Info().current_h)
 screen = pygame.display.set_mode(screen_size, pygame.RESIZABLE)
 max_character = 300
+speaking_enabled = True
+emo_enabled = True
+eat_enabled = True
 
 # 图片
 background_dir = 'asset/image/bg.jpeg'

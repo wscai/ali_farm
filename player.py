@@ -1,7 +1,7 @@
 import pygame
 import random
 from animation import animation
-from settings import id_font, emo, emo_size, screen_size
+from settings import id_font, emo, emo_size, screen_size,speaking_enabled,eat_enabled, emo_enabled
 
 emotion_scale = emo_size
 
@@ -54,16 +54,22 @@ class player(pygame.sprite.Sprite):
 
     # 说话
     def speak(self, text: str):
-        self.words = id_font.render(str(text), True, (0, 0, 0), (255, 255, 255))
-        self.is_speaking = True
+        if speaking_enabled:
+            self.words = id_font.render(str(text), True, (0, 0, 0), (255, 255, 255))
+            self.is_speaking = True
+        return
 
     def eat(self):
-        self.animation.eat()
+        if eat_enabled:
+            self.animation.eat()
+        return
 
     # 做表情
     def emo(self, key):
-        self.is_emo = True
-        self.emo_key = key
+        if emo_enabled:
+            self.is_emo = True
+            self.emo_key = key
+        return
 
     # 每帧更新
     def update(self, screen):
