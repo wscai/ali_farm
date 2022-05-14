@@ -54,21 +54,18 @@ class player(pygame.sprite.Sprite):
 
     # 说话
     def speak(self, text: str):
-        if speaking_enabled:
-            self.words = id_font.render(str(text), True, (0, 0, 0), (255, 255, 255))
-            self.is_speaking = True
+        self.words = id_font.render(str(text), True, (0, 0, 0), (255, 255, 255))
+        self.is_speaking = True
         return
 
     def eat(self):
-        if eat_enabled:
-            self.animation.eat()
+        self.animation.eat()
         return
 
     # 做表情
     def emo(self, key):
-        if emo_enabled:
-            self.is_emo = True
-            self.emo_key = key
+        self.is_emo = True
+        self.emo_key = key
         return
 
     # 每帧更新
